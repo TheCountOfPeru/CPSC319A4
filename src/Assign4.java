@@ -20,11 +20,13 @@ public class Assign4 {
 	        return "";
 	    }
 	}
+	
 	public static void main(String[] args) {
 		File fileIn;
 		Scanner scanner;
 		String temp = "";
 		StringTokenizer stringtokenizer;
+		int v_count;
 		//Command line argument verification 
 		/*
 		if(args.length != 4) {
@@ -38,25 +40,54 @@ public class Assign4 {
 		}*/
 		//Build the adjacency matrix from an input file
 		fileIn = new File(args[0]);
+		Graph graph = null;
+		int i =0;
+		int j, k;
 		try {
 			scanner = new Scanner(fileIn);
-			while(scanner.hasNextLine()) {
+			System.out.println("Scanning the input file...");
+			System.out.println();
+			
+			//Process first row first to identify how many vertices to accommodate for
+			//Also add it to the adjacency list
+			temp = scanner.nextLine();
+			stringtokenizer = new StringTokenizer(temp, " ");
+			int V = stringtokenizer.countTokens();
+			System.out.println(V);
+			graph = new Graph(V);
+			int[] arr = new int[V];
+			for(j = 0; j < V;j++) {
+				arr[j] = Integer.parseInt(stringtokenizer.nextToken());	
+			}
+			for(k=0;k<V;k++) {
+				if(arr[k]!=0)
+					graph.addEdge(0, k);
+			}
+			//Process remaining rows
+			/*while(scanner.hasNextLine()) {
 				temp = scanner.nextLine();
 				stringtokenizer = new StringTokenizer(temp, " ");
-				String[] tokens = new String[stringtokenizer.countTokens()]; 
-				int i =0;
-				while (stringtokenizer.hasMoreElements()) {
-			        tokens[i] = stringtokenizer.nextToken();
-			        i++;
-			    }
-				for(int j=0;j<tokens.length;j++)
-					System.out.print(tokens[j]+" ");
+				arr = new int[V]; 
+				i = 0;
+				for(j = 0; j < V;j++) {//Parse one row into an array
+					arr[j] = Integer.parseInt(stringtokenizer.nextToken());
+					
+				}
+				for(k=0, j = 0;k<V;k++,j++) {//Parse the previous to add any edges to the graph
+					if(arr[j]!=0)
+						graph.addEdge(k, j);
+					System.out.println(arr[j]);
+				}
+				for(j=0;j<arr.length;j++)
+					System.out.print(arr[j]+" ");
 				System.out.println();
-			}
+			}*/
+			scanner.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Failed to read the text file. Quitting...");
 			System.exit(-1);
 		}
+		graph.printGraph();
 	}
 
 }
