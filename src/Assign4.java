@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -21,7 +22,8 @@ public class Assign4 {
 	}
 	
 	public static void main(String[] args) {
-		File fileIn;
+		File fileIn, query,out1,out2;
+		PrintWriter pw;
 		Scanner scanner;
 		String temp = "";
 		StringTokenizer stringtokenizer;
@@ -84,8 +86,25 @@ public class Assign4 {
 			System.exit(-1);
 		}
 		graph.printGraph();
-		graph.DFS(0);
-		graph.BFS(0);
+		//Perform depth first query
+		out1 = new File(args[1]);
+		try {
+			pw = new PrintWriter(out1);
+			graph.DFS(4);
+			pw.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("FileNotFoundException for depth first query method.");
+		}
+		//Breadth depth first query
+		out2 = new File(args[2]);
+		try {
+			pw = new PrintWriter(out2);
+			graph.BFS(4);
+			pw.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("FileNotFoundException for breadth first query method.");
+		} 
+		
 	}
 
 }
