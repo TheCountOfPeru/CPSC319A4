@@ -1,18 +1,18 @@
-public class Node {
-	private int item;
+public class Node<T> {
+	private T item;
 	private Node next;
-	public Node(int i){
+	public Node(T i){
 		setItem(i); 
 		setNext(null);
 	}
-	public Node(int itemA, Node nextA){
+	public Node(T itemA, Node nextA){
 		setItem(itemA) ;
 		setNext(nextA);
 	}
-	public int getItem() {
+	public T getItem() {
 		return item;
 	}
-	public void setItem(int itemA) {
+	public void setItem(T itemA) {
 		item = itemA;
 	}
 	public Node getNext() {

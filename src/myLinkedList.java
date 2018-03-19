@@ -1,6 +1,7 @@
 import java.io.PrintWriter;
+import java.util.ListIterator;
 
-public class myLinkedList {
+public class myLinkedList<T> {
 	private Node head;
 	private Node tail;
 	
@@ -23,8 +24,8 @@ public class myLinkedList {
 		else 
 			setHead(tail = new Node(el));
 	}
-	public int deleteFromHead() { // delete the head and return its info;
-			int el = getHead().getItem();
+	public T deleteFromHead() { // delete the head and return its info;
+			T el = (T)getHead().getItem();
 		if (getHead() == tail) // if only one node on the list;
 			setHead(tail = null);
 		else 
@@ -51,14 +52,12 @@ public class myLinkedList {
 		for (Node tmp = getHead(); tmp != null; tmp = tmp.getNext())
 			System.out.print(tmp.getItem() + " ");
 	}
-	public boolean isInList(int el) {
+	public boolean isInList(T el) {
 		Node tmp;
-		for (tmp = getHead(); tmp != null && tmp.getItem()!=el; tmp = tmp.getNext());
+		for (tmp = getHead(); tmp != null && !tmp.getItem().equals(el); tmp = tmp.getNext());
 		return tmp != null;
 	}
-	public int getheadItem() {
-		return getHead().getItem();
+	public T getheadItem() {
+		return (T)getHead().getItem();
 	}
-	
-	
 }

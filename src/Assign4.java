@@ -5,7 +5,6 @@ import java.util.StringTokenizer;
 
 /*
  * Data structures taken from CPSC319 lecture notes
- * Implementation of graph structure adapted from https://www.geeksforgeeks.org/graph-and-its-representations/
  */
 public class Assign4 {
 	/**
@@ -56,8 +55,10 @@ public class Assign4 {
 			graph = new Graph(V);
 			int[] arr = new int[V];
 			for(j = 0; j < V;j++) {
-				arr[j] = Integer.parseInt(stringtokenizer.nextToken());	
+				arr[j] = Integer.parseInt(stringtokenizer.nextToken());
+				System.out.print(arr[j]);
 			}
+			System.out.println();
 			for(k=0;k<V;k++) {
 				if(arr[k]!=0)
 					graph.addEdge(0, k);
@@ -69,11 +70,12 @@ public class Assign4 {
 				arr = new int[V]; 
 				for(j = 0; j < V;j++) {//Parse one row into an array
 					arr[j] = Integer.parseInt(stringtokenizer.nextToken());
+					System.out.print(arr[j]);
 				}
+				System.out.println();
 				for(j = 0;j<V;j++) {//Parse the array to add edges to the graph
 					if(arr[j]!=0)
 						graph.addEdge(g,j);
-					System.out.println(arr[j]);
 				}
 			}
 			scanner.close();
@@ -82,6 +84,8 @@ public class Assign4 {
 			System.exit(-1);
 		}
 		graph.printGraph();
+		graph.DFS(0);
+		graph.BFS(0);
 	}
 
 }
