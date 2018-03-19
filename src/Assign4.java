@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 
 /*
  * Data structures taken from CPSC319 lecture notes
- * Implementation of graph structure adapted from http://www.java2s.com/Code/Java/Collections-Data-Structure/Adirectedgraphdatastructure.htm
+ * Implementation of graph structure adapted from https://www.geeksforgeeks.org/graph-and-its-representations/
  */
 public class Assign4 {
 	/**
@@ -53,7 +53,6 @@ public class Assign4 {
 			temp = scanner.nextLine();
 			stringtokenizer = new StringTokenizer(temp, " ");
 			int V = stringtokenizer.countTokens();
-			System.out.println(V);
 			graph = new Graph(V);
 			int[] arr = new int[V];
 			for(j = 0; j < V;j++) {
@@ -64,24 +63,19 @@ public class Assign4 {
 					graph.addEdge(0, k);
 			}
 			//Process remaining rows
-			/*while(scanner.hasNextLine()) {
+			for(int g= 1; g< V;g++) {
 				temp = scanner.nextLine();
 				stringtokenizer = new StringTokenizer(temp, " ");
 				arr = new int[V]; 
-				i = 0;
 				for(j = 0; j < V;j++) {//Parse one row into an array
 					arr[j] = Integer.parseInt(stringtokenizer.nextToken());
-					
 				}
-				for(k=0, j = 0;k<V;k++,j++) {//Parse the previous to add any edges to the graph
+				for(j = 0;j<V;j++) {//Parse the array to add edges to the graph
 					if(arr[j]!=0)
-						graph.addEdge(k, j);
+						graph.addEdge(g,j);
 					System.out.println(arr[j]);
 				}
-				for(j=0;j<arr.length;j++)
-					System.out.print(arr[j]+" ");
-				System.out.println();
-			}*/
+			}
 			scanner.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Failed to read the text file. Quitting...");
