@@ -44,8 +44,10 @@ public class Graph {
      *  prints BFS traversal from a given source node start_node
      *  from https://www.geeksforgeeks.org/breadth-first-traversal-for-a-graph/
      */
-    public void BFS(int start_node, int end_node, PrintWriter pw)
+    public void BFS(Integer start_node, Integer end_node, PrintWriter pw)
     {
+    	String results = "";
+    	Integer start = start_node;
     	System.out.println("Breadth first traversal starting at node: " + start_node );
         // Mark all the vertices as not visited(By default
         // set as false)
@@ -62,35 +64,46 @@ public class Graph {
         {
             // Dequeue a vertex from queue and print it
         	start_node = queue.deleteFromHead();
-            System.out.print(start_node+" ");
- 
+            System.out.print(start_node+", ");
+            results= results.concat(start_node.toString()+", ");
             // Get all adjacent vertices of the dequeued vertex s
             // If a adjacent has not been visited, then mark it
             // visited and enqueue it
             myLinkedList<Integer> temp = adjListArray[start_node];  
             for (Node tmp = temp.getHead(); tmp != null; tmp = tmp.getNext()) {
-            	int n = (Integer)tmp.getItem();
-                if (!visited[n]){
+            	Integer n = (Integer)tmp.getItem();
+            	if(n==end_node) {												//Check if the end_node has been reached
+            		System.out.println(n+" ");									//If it has been reached leave the loop
+            		results=results.concat(n.toString()+" ");
+            		visited[n] = true;
+            		tmp.setNext(null);
+            		queue.clear();
+            	}
+            	else if(!visited[n]){
                     visited[n] = true;
                     queue.addToTail(n);
                 }
             } 
         }//end of while
-        System.out.println();
+        if(!visited[end_node])													//If end_node never reached output appropriate results
+        	results = start+", -1, "+end_node;
+        System.out.println(results);
+        pw.println(results);
+        	
     }
     // A function used by DFS
-    public void DFSUtil(int start_node,boolean visited[])
+    public void DFSUtil(Integer start_node,Integer end_node,boolean visited[])
     {
         // Mark the current node as visited and print it
         visited[start_node] = true;
-        System.out.print(start_node+" ");
+        System.out.print(start_node+", ");
  
         // Recur for all the vertices adjacent to this vertex
         myLinkedList<Integer> temp = adjListArray[start_node];  
         for (Node tmp = temp.getHead(); tmp != null; tmp = tmp.getNext()) {
         	int n = (Integer)tmp.getItem();
         	if (!visited[n])
-                DFSUtil(n, visited);
+                DFSUtil(n, end_node, visited);
         }
     }
  
@@ -106,7 +119,7 @@ public class Graph {
         boolean visited[] = new boolean[V];
  
         // Call the recursive helper function to print DFS traversal
-        DFSUtil(start_node, visited);
+        DFSUtil(start_node,end_node, visited);
         System.out.println();
     }
 }

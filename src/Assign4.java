@@ -22,7 +22,7 @@ public class Assign4 {
 	}
 	
 	public static void main(String[] args) {
-		File fileIn, query,out1,out2;
+		File fileIn, query;
 		PrintWriter pw;
 		Scanner scanner;
 		String temp = "";
@@ -58,9 +58,7 @@ public class Assign4 {
 			int[] arr = new int[V];
 			for(j = 0; j < V;j++) {
 				arr[j] = Integer.parseInt(stringtokenizer.nextToken());
-				System.out.print(arr[j]);
 			}
-			System.out.println();
 			for(k=0;k<V;k++) {
 				if(arr[k]!=0)
 					graph.addEdge(0, k);
@@ -72,9 +70,7 @@ public class Assign4 {
 				arr = new int[V]; 
 				for(j = 0; j < V;j++) {//Parse one row into an array
 					arr[j] = Integer.parseInt(stringtokenizer.nextToken());
-					System.out.print(arr[j]);
 				}
-				System.out.println();
 				for(j = 0;j<V;j++) {//Parse the array to add edges to the graph
 					if(arr[j]!=0)
 						graph.addEdge(g,j);
@@ -87,19 +83,17 @@ public class Assign4 {
 		}
 		graph.printGraph();
 		//Perform depth first query
-		out1 = new File(args[1]);
 		try {
-			pw = new PrintWriter(out1);
-			graph.DFS(4);
+			pw = new PrintWriter(args[1]);
+			graph.DFS(0,1, pw);
 			pw.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("FileNotFoundException for depth first query method.");
 		}
 		//Breadth depth first query
-		out2 = new File(args[2]);
 		try {
-			pw = new PrintWriter(out2);
-			graph.BFS(4);
+			pw = new PrintWriter(args[2]);
+			graph.BFS(3,4, pw);
 			pw.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("FileNotFoundException for breadth first query method.");

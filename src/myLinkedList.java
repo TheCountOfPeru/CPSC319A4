@@ -60,4 +60,7 @@ public class myLinkedList<T> {
 	public T getheadItem() {
 		return (T)getHead().getItem();
 	}
+	public void clear() {
+		setHead(tail = null);
+	}
 }
