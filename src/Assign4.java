@@ -20,6 +20,11 @@ public class Assign4 {
 	        return "";
 	    }
 	}
+	public static void PrintQueryList(myLinkedList<QueryNodes> queries) {
+		System.out.println("Displaying list of queries to execute...");
+		for (Node<QueryNodes> tmp = queries.getHead(); tmp != null; tmp = tmp.getNext()) 
+        	System.out.println(tmp.getItem().toString());
+	}
 	
 	public static void main(String[] args) {
 		File fileIn, query;
@@ -28,6 +33,7 @@ public class Assign4 {
 		String temp = "";
 		StringTokenizer stringtokenizer;
 		int v_count;
+		myLinkedList<QueryNodes> queries = null;
 		//Command line argument verification 
 		/*
 		if(args.length != 4) {
@@ -42,7 +48,6 @@ public class Assign4 {
 		//Build the adjacency matrix from an input file
 		fileIn = new File(args[0]);
 		Graph graph = null;
-		int i =0;
 		int j, k;
 		try {
 			scanner = new Scanner(fileIn);
@@ -51,8 +56,8 @@ public class Assign4 {
 			
 			//Process first row first to identify how many vertices to accommodate for
 			//Also add it to the adjacency list
-			temp = scanner.nextLine();
-			stringtokenizer = new StringTokenizer(temp, " ");
+			//temp = 
+			stringtokenizer = new StringTokenizer(scanner.nextLine(), " ");
 			int V = stringtokenizer.countTokens();
 			graph = new Graph(V);
 			int[] arr = new int[V];
@@ -65,8 +70,7 @@ public class Assign4 {
 			}
 			//Process remaining rows
 			for(int g= 1; g< V;g++) {
-				temp = scanner.nextLine();
-				stringtokenizer = new StringTokenizer(temp, " ");
+				stringtokenizer = new StringTokenizer(scanner.nextLine(), " ");
 				arr = new int[V]; 
 				for(j = 0; j < V;j++) {//Parse one row into an array
 					arr[j] = Integer.parseInt(stringtokenizer.nextToken());
@@ -77,14 +81,33 @@ public class Assign4 {
 				}
 			}
 			scanner.close();
+			System.out.println("Graph successfully constructed...");
 		} catch (FileNotFoundException e) {
-			System.out.println("Failed to read the text file. Quitting...");
+			System.out.println("Failed to read the input text file. Quitting...");
 			System.exit(-1);
 		}
+		query = new File(args[1]);
+		System.out.println("Scanning the query file...");
+		System.out.println();
+		try {
+			scanner = new Scanner(query);
+			queries = new myLinkedList<QueryNodes>();
+			while(scanner.hasNextLine()) {
+				stringtokenizer = new StringTokenizer(scanner.nextLine()," ");
+				Integer x = Integer.parseInt(stringtokenizer.nextToken());
+				Integer y = Integer.parseInt(stringtokenizer.nextToken());
+				queries.addToHead(new QueryNodes(x,y));
+			}
+			scanner.close();
+		} catch (FileNotFoundException e1) {
+			System.out.println("Failed to read the query text file. Quitting...");
+			System.exit(-1);
+		}
+		PrintQueryList(queries);
 		graph.printGraph();
 		//Perform depth first query
 		try {
-			pw = new PrintWriter(args[1]);
+			pw = new PrintWriter(args[2]);
 			graph.DFS(0,1, pw);
 			pw.close();
 		} catch (FileNotFoundException e) {
@@ -92,7 +115,7 @@ public class Assign4 {
 		}
 		//Breadth depth first query
 		try {
-			pw = new PrintWriter(args[2]);
+			pw = new PrintWriter(args[3]);
 			graph.BFS(3,4, pw);
 			pw.close();
 		} catch (FileNotFoundException e) {

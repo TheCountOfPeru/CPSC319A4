@@ -1,9 +1,8 @@
 import java.io.PrintWriter;
-import java.util.ListIterator;
 
 public class myLinkedList<T> {
-	private Node head;
-	private Node tail;
+	private Node<T> head;
+	private Node<T> tail;
 	
 	public myLinkedList() {
 		setHead(tail = null);
@@ -11,18 +10,18 @@ public class myLinkedList<T> {
 	public boolean isEmpty() {
 		return getHead() == null;
 	}
-	public void addToHead(int el) {
-		setHead(new Node(el,getHead()));
+	public void addToHead(T el) {
+		setHead(new Node<T>(el,getHead()));
 		if (tail == null)
 			tail = getHead();
 	}
-	public void addToTail(int el) {
+	public void addToTail(T el) {
 		if (!isEmpty()) {
-			tail.setNext(new Node(el));
+			tail.setNext(new Node<T>(el));
 			tail = tail.getNext();
 		}
 		else 
-			setHead(tail = new Node(el));
+			setHead(tail = new Node<T>(el));
 	}
 	public T deleteFromHead() { // delete the head and return its info;
 			T el = (T)getHead().getItem();
@@ -32,28 +31,28 @@ public class myLinkedList<T> {
 			setHead(getHead().getNext());
 		return el;
 	}
-	public Node getHead() {
+	public Node<T> getHead() {
 		return head;
 	}
-	public void setHead(Node head) {
+	public void setHead(Node<T> head) {
 		this.head = head;
 	}
-	public Node getTail() {
+	public Node<T> getTail() {
 		return tail;
 	}
-	public void setTail(Node tail) {
+	public void setTail(Node<T> tail) {
 		this.tail = tail;
 	}
 	public void printAllFile(PrintWriter writer) {
-		for (Node tmp = getHead(); tmp != null; tmp = tmp.getNext())
+		for (Node<T> tmp = getHead(); tmp != null; tmp = tmp.getNext())
 			writer.print(tmp.getItem() + " ");
 	}
 	public void printAllConsole() {
-		for (Node tmp = getHead(); tmp != null; tmp = tmp.getNext())
+		for (Node<T> tmp = getHead(); tmp != null; tmp = tmp.getNext())
 			System.out.print(tmp.getItem() + " ");
 	}
 	public boolean isInList(T el) {
-		Node tmp;
+		Node<T> tmp;
 		for (tmp = getHead(); tmp != null && !tmp.getItem().equals(el); tmp = tmp.getNext());
 		return tmp != null;
 	}

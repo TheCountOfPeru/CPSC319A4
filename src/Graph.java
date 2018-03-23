@@ -5,8 +5,8 @@ import java.util.Iterator;
  * Taken from https://www.geeksforgeeks.org/graph-and-its-representations/
  */
 public class Graph {
-	int V;
-	myLinkedList<Integer> adjListArray[];
+	private	int V;
+	private myLinkedList<Integer> adjListArray[];
 	
 	public Graph(int V){
 		this.V = V;
@@ -30,15 +30,17 @@ public class Graph {
     // representation of graph
     public void printGraph()
     {       
+    	System.out.println("Displaying the adjacency list...");
+    	System.out.println("--------------------------------");
         for(int v = 0; v < this.V; v++)
         {
             System.out.println("Adjacency list of vertex "+ v);
             System.out.print("head");
-        	for (Node tmp = this.adjListArray[v].getHead(); tmp != null; tmp = tmp.getNext())
+        	for (Node<?> tmp = this.adjListArray[v].getHead(); tmp != null; tmp = tmp.getNext())
         		System.out.print(" -> "+tmp.getItem() );
-        	
             System.out.println("\n");
         }
+        System.out.println("--------------------------------");
     }
     /*
      *  prints BFS traversal from a given source node start_node
@@ -70,7 +72,7 @@ public class Graph {
             // If a adjacent has not been visited, then mark it
             // visited and enqueue it
             myLinkedList<Integer> temp = adjListArray[start_node];  
-            for (Node tmp = temp.getHead(); tmp != null; tmp = tmp.getNext()) {
+            for (Node<Integer> tmp = temp.getHead(); tmp != null; tmp = tmp.getNext()) {
             	Integer n = (Integer)tmp.getItem();
             	if(n==end_node) {												//Check if the end_node has been reached
             		System.out.println(n+" ");									//If it has been reached leave the loop
@@ -100,7 +102,7 @@ public class Graph {
  
         // Recur for all the vertices adjacent to this vertex
         myLinkedList<Integer> temp = adjListArray[start_node];  
-        for (Node tmp = temp.getHead(); tmp != null; tmp = tmp.getNext()) {
+        for (Node<Integer> tmp = temp.getHead(); tmp != null; tmp = tmp.getNext()) {
         	int n = (Integer)tmp.getItem();
         	if (!visited[n])
                 DFSUtil(n, end_node, visited);

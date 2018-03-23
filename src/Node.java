@@ -1,11 +1,11 @@
 public class Node<T> {
 	private T item;
-	private Node next;
+	private Node<T> next;
 	public Node(T i){
 		setItem(i); 
 		setNext(null);
 	}
-	public Node(T itemA, Node nextA){
+	public Node(T itemA, Node<T> nextA){
 		setItem(itemA) ;
 		setNext(nextA);
 	}
@@ -15,10 +15,10 @@ public class Node<T> {
 	public void setItem(T itemA) {
 		item = itemA;
 	}
-	public Node getNext() {
+	public Node<T> getNext() {
 		return next;
 	}
-	public void setNext(Node nextA) {
+	public void setNext(Node<T> nextA) {
 		next = nextA;
 	}
 
