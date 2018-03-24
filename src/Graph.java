@@ -66,7 +66,6 @@ public class Graph {
         {
             // Dequeue a vertex from queue and print it
         	start_node = queue.deleteFromHead();
-            System.out.print(start_node+", ");
             results= results.concat(start_node.toString()+", ");
             // Get all adjacent vertices of the dequeued vertex s
             // If a adjacent has not been visited, then mark it
@@ -75,8 +74,7 @@ public class Graph {
             for (Node<Integer> tmp = temp.getHead(); tmp != null; tmp = tmp.getNext()) {
             	Integer n = (Integer)tmp.getItem();
             	if(n==end_node) {												//Check if the end_node has been reached
-            		System.out.println(n+" ");									//If it has been reached leave the loop
-            		results=results.concat(n.toString()+" ");
+            		results=results.concat(n.toString()+" ");					//If it has been reached leave the loop
             		visited[n] = true;
             		tmp.setNext(null);
             		queue.clear();
@@ -90,22 +88,28 @@ public class Graph {
         if(!visited[end_node])													//If end_node never reached output appropriate results
         	results = start+", -1, "+end_node;
         System.out.println(results);
-        pw.println(results);
-        	
+        pw.println(results);       	
     }
     // A function used by DFS
-    public void DFSUtil(Integer start_node,Integer end_node,boolean visited[])
+    public void DFSUtil(Integer start_node, Integer end_node, boolean visited[], String result, PrintWriter pw) throws EndFoundException
     {
         // Mark the current node as visited and print it
         visited[start_node] = true;
-        System.out.print(start_node+", ");
- 
+        if(start_node==end_node) {
+        	//System.out.print(start_node + " Found the end!");
+            throw new EndFoundException(result + end_node);	
+        }
+        else {
+        	result = result.concat(start_node+", ");
+        	pw.print(start_node+", ");
+        	//System.out.print(start_node+", ");
+        }     	
         // Recur for all the vertices adjacent to this vertex
         myLinkedList<Integer> temp = adjListArray[start_node];  
         for (Node<Integer> tmp = temp.getHead(); tmp != null; tmp = tmp.getNext()) {
         	int n = (Integer)tmp.getItem();
         	if (!visited[n])
-                DFSUtil(n, end_node, visited);
+                DFSUtil(n, end_node, visited, result, pw);
         }
     }
  
@@ -113,15 +117,23 @@ public class Graph {
      *  The function to do DFS traversal. It uses recursive DFSUtil().
      *  from https://www.geeksforgeeks.org/depth-first-traversal-for-a-graph/
      */
-    public void DFS(int start_node, int end_node, PrintWriter pw)
+    public void DFS(Integer start_node, Integer end_node, PrintWriter pw) 
     {
     	System.out.println("Depth first traversal starting at node: " +start_node );
         // Mark all the vertices as not visited(set as
         // false by default in java)
         boolean visited[] = new boolean[V];
- 
+        String result = "";
         // Call the recursive helper function to print DFS traversal
-        DFSUtil(start_node,end_node, visited);
+        try {
+			DFSUtil(start_node, end_node, visited, result, pw);
+		} catch (EndFoundException e) {
+			System.out.println(e.getMessage());
+			pw.print(e.getMessage());
+			return;
+		}
+        pw.println(start_node+", -1, "+end_node);
+        System.out.print(start_node+", -1, "+end_node);
         System.out.println();
     }
 }

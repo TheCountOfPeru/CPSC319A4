@@ -52,11 +52,8 @@ public class Assign4 {
 		try {
 			scanner = new Scanner(fileIn);
 			System.out.println("Scanning the input file...");
-			System.out.println();
-			
 			//Process first row first to identify how many vertices to accommodate for
 			//Also add it to the adjacency list
-			//temp = 
 			stringtokenizer = new StringTokenizer(scanner.nextLine(), " ");
 			int V = stringtokenizer.countTokens();
 			graph = new Graph(V);
@@ -108,7 +105,7 @@ public class Assign4 {
 		//Perform depth first query
 		try {
 			pw = new PrintWriter(args[2]);
-			graph.DFS(0,1, pw);
+			graph.DFS(4,1, pw);
 			pw.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("FileNotFoundException for depth first query method.");
@@ -116,7 +113,7 @@ public class Assign4 {
 		//Breadth depth first query
 		try {
 			pw = new PrintWriter(args[3]);
-			graph.BFS(3,4, pw);
+			graph.BFS(4,2, pw);
 			pw.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("FileNotFoundException for breadth first query method.");
