@@ -63,7 +63,7 @@ public class Assign4 {
 			}
 			for(k=0;k<V;k++) {
 				if(arr[k]!=0)
-					graph.addEdge(0, k);
+					graph.addEdge(0, new Vertex(k,arr[k]));
 			}
 			//Process remaining rows
 			for(int g= 1; g< V;g++) {
@@ -74,7 +74,7 @@ public class Assign4 {
 				}
 				for(j = 0;j<V;j++) {//Parse the array to add edges to the graph
 					if(arr[j]!=0)
-						graph.addEdge(g,j);
+						graph.addEdge(g,new Vertex(j,arr[j]));
 				}
 			}
 			scanner.close();
@@ -84,6 +84,9 @@ public class Assign4 {
 			System.out.println("Failed to read the input text file. Quitting...");
 			System.exit(-1);
 		}
+		AdjMatrix matrix = graph.ConvertToMatrix();
+		matrix.PrintMatrix();	
+		
 		query = new File(args[1]);
 		System.out.println("Scanning the query file...");
 		try {

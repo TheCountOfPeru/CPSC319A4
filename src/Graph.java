@@ -1,12 +1,11 @@
 import java.io.PrintWriter;
-import java.util.Iterator;
 
 /*
  * Taken from https://www.geeksforgeeks.org/graph-and-its-representations/
  */
 public class Graph {
 	private	int V;
-	private myLinkedList<Integer> adjListArray[];
+	private myLinkedList<Vertex> adjListArray[];
 	
 	public Graph(int V){
 		this.V = V;
@@ -17,10 +16,10 @@ public class Graph {
         // Create a new list for each vertex
         // such that adjacent nodes can be stored
         for(int i = 0; i < V ; i++){
-            adjListArray[i] = new myLinkedList<Integer>();
+            adjListArray[i] = new myLinkedList<Vertex>();
         }
 	}
-	public void addEdge(int src, int dest)
+	public void addEdge(int src, Vertex dest)
     {
         // Add an edge from src to dest. 
 		// src is the starting point and dest is the ending point
@@ -36,8 +35,8 @@ public class Graph {
         {
             System.out.println("Adjacency list of vertex "+ v);
             System.out.print("head");
-        	for (Node<?> tmp = this.adjListArray[v].getHead(); tmp != null; tmp = tmp.getNext())
-        		System.out.print(" -> "+tmp.getItem() );
+        	for (Node<Vertex> tmp = this.adjListArray[v].getHead(); tmp != null; tmp = tmp.getNext())
+        		System.out.print(" -> "+tmp.getItem().getName() );
             System.out.println("\n");
         }
         System.out.println("--------------------------------");
@@ -71,8 +70,8 @@ public class Graph {
             // Loop through the linkedlist to find if an adjacent that has not been visited, then mark it
             // visited and enqueue it into the queue
            // myLinkedList<Integer> temp = adjListArray[start_node];  
-            for (Node<Integer> tmp = adjListArray[start_node].getHead(); tmp != null; tmp = tmp.getNext()) {
-            	Integer n = (Integer)tmp.getItem();
+            for (Node<Vertex> tmp = adjListArray[start_node].getHead(); tmp != null; tmp = tmp.getNext()) {
+            	Integer n = (Integer)tmp.getItem().getName();
             	if(n==end_node) {												//Check if the end_node has been reached
             		results=results.concat(n.toString());					//If it has been reached leave the loop and record it to the results
             		visited[n] = true;
@@ -102,9 +101,9 @@ public class Graph {
         	result = result.concat(start_node+", ");
         }     	
         // Recur for all the vertices adjacent to this vertex
-        myLinkedList<Integer> temp = adjListArray[start_node];  //In a linkedlist collect all the nodes that are adjacent to the current node
-        for (Node<Integer> tmp = temp.getHead(); tmp != null; tmp = tmp.getNext()) {
-        	int n = (Integer)tmp.getItem();//Go through the linked list one by one
+        myLinkedList<Vertex> temp = adjListArray[start_node];  //In a linkedlist collect all the nodes that are adjacent to the current node
+        for (Node<Vertex> tmp = temp.getHead(); tmp != null; tmp = tmp.getNext()) {
+        	int n = (Integer)tmp.getItem().getName();//Go through the linked list one by one
         	if (!visited[n])
                 DFSUtil(n, end_node, visited, result, pw);//If node n is not visited call another recursion
         }
@@ -132,5 +131,17 @@ public class Graph {
         pw.println(start_node+", -1, "+end_node);
         System.out.print(start_node+", -1, "+end_node);
         System.out.println();
+    }
+    /*
+     * Converts the current adjacency list to an adjacency matrix
+     */
+    public AdjMatrix ConvertToMatrix() {
+    	AdjMatrix mat = new AdjMatrix(V);
+    	for(int i = 0; i<V;i++) {
+    		for (Node<Vertex> tmp = this.adjListArray[i].getHead(); tmp != null; tmp = tmp.getNext()) {
+    			mat.addToMatrix(i, tmp.getItem().getName(), tmp.getItem().getWeight());
+    		}
+    	}
+		return mat;
     }
 }
