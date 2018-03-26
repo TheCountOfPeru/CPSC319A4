@@ -70,14 +70,14 @@ public class Graph {
             // Get all adjacent vertices of the dequeued vertex s into a linkedlist
             // Loop through the linkedlist to find if an adjacent that has not been visited, then mark it
             // visited and enqueue it into the queue
-            myLinkedList<Integer> temp = adjListArray[start_node];  
-            for (Node<Integer> tmp = temp.getHead(); tmp != null; tmp = tmp.getNext()) {
+           // myLinkedList<Integer> temp = adjListArray[start_node];  
+            for (Node<Integer> tmp = adjListArray[start_node].getHead(); tmp != null; tmp = tmp.getNext()) {
             	Integer n = (Integer)tmp.getItem();
             	if(n==end_node) {												//Check if the end_node has been reached
-            		results=results.concat(n.toString()+" ");					//If it has been reached leave the loop and record it to the results
+            		results=results.concat(n.toString());					//If it has been reached leave the loop and record it to the results
             		visited[n] = true;
-            		tmp.setNext(null);
             		queue.clear();
+            		break;
             	}
             	else if(!visited[n]){
                     visited[n] = true;
