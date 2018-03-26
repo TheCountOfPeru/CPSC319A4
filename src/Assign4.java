@@ -30,7 +30,6 @@ public class Assign4 {
 		File fileIn, query;
 		PrintWriter pw;
 		Scanner scanner;
-		String temp = "";
 		StringTokenizer stringtokenizer;
 		int v_count;
 		myLinkedList<QueryNodes> queries = null;
@@ -54,7 +53,7 @@ public class Assign4 {
 			System.out.println("Scanning the input file...");
 			//Process first row first to identify how many vertices to accommodate for
 			//Also add it to the adjacency list
-			stringtokenizer = new StringTokenizer(scanner.nextLine(), " ");
+			stringtokenizer = new StringTokenizer(scanner.nextLine(), "	");
 			int V = stringtokenizer.countTokens();
 			graph = new Graph(V);
 			int[] arr = new int[V];
@@ -67,7 +66,7 @@ public class Assign4 {
 			}
 			//Process remaining rows
 			for(int g= 1; g< V;g++) {
-				stringtokenizer = new StringTokenizer(scanner.nextLine(), " ");
+				stringtokenizer = new StringTokenizer(scanner.nextLine(), "	");
 				arr = new int[V]; 
 				for(j = 0; j < V;j++) {//Parse one row into an array
 					arr[j] = Integer.parseInt(stringtokenizer.nextToken());
@@ -90,10 +89,10 @@ public class Assign4 {
 			scanner = new Scanner(query);
 			queries = new myLinkedList<QueryNodes>();
 			while(scanner.hasNextLine()) {
-				stringtokenizer = new StringTokenizer(scanner.nextLine()," ");
+				stringtokenizer = new StringTokenizer(scanner.nextLine(),"	");
 				Integer x = Integer.parseInt(stringtokenizer.nextToken());
 				Integer y = Integer.parseInt(stringtokenizer.nextToken());
-				queries.addToHead(new QueryNodes(x,y));
+				queries.addToTail(new QueryNodes(x,y));
 			}
 			scanner.close();
 		} catch (FileNotFoundException e1) {
@@ -101,19 +100,24 @@ public class Assign4 {
 			System.exit(-1);
 		}
 		PrintQueryList(queries);
-		graph.printGraph();
-		//Perform depth first query
+		graph.printGraph();	
+		//Perform depth first queries, Print the results to a file
 		try {
 			pw = new PrintWriter(args[2]);
-			graph.DFS(4,1, pw);
+			myLinkedList<QueryNodes> temp = queries;
+			for (Node<QueryNodes> tmp = temp.getHead(); tmp != null; tmp = tmp.getNext())
+	            	graph.DFS(tmp.getItem().getStart(), tmp.getItem().getEnd(), pw);
 			pw.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("FileNotFoundException for depth first query method.");
 		}
-		//Breadth depth first query
+		//Breadth depth first queries, Print the results to a file
+		
 		try {
 			pw = new PrintWriter(args[3]);
-			graph.BFS(4,2, pw);
+			myLinkedList<QueryNodes> temp1 = queries;
+			for (Node<QueryNodes> tmp = temp1.getHead(); tmp != null; tmp = tmp.getNext())
+				graph.BFS(tmp.getItem().getStart(), tmp.getItem().getEnd(), pw);
 			pw.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("FileNotFoundException for breadth first query method.");
