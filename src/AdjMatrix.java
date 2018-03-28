@@ -21,6 +21,9 @@ public class AdjMatrix {
 	public void addToMatrix(int row, int col, int el) {
 		matrix[row][col] = el;
 	}
+	public int getAt(int row, int col) {
+		return matrix[row][col];
+	}
 	public void PrintMatrix() {
 		for(int i=0;i<matrix[0].length;i++) {
 			for(int j=0;j<matrix[0].length;j++) {
@@ -29,4 +32,5 @@ public class AdjMatrix {
 			System.out.println();
 		}
 	}
+	
 }

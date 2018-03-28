@@ -6,8 +6,9 @@ import java.io.PrintWriter;
 public class Graph {
 	private	int V;
 	private myLinkedList<Vertex> adjListArray[];
-	
+	private AdjMatrix matrix;
 	public Graph(int V){
+		matrix = null;
 		this.V = V;
 		// define the size of array as 
         // number of vertices
@@ -18,6 +19,12 @@ public class Graph {
         for(int i = 0; i < V ; i++){
             adjListArray[i] = new myLinkedList<Vertex>();
         }
+	}
+	public AdjMatrix getMatrix() {
+		return matrix;
+	}
+	public void setMatrix(AdjMatrix matrix) {
+		this.matrix = matrix;
 	}
 	public void addEdge(int src, Vertex dest)
     {
@@ -40,6 +47,12 @@ public class Graph {
             System.out.println("\n");
         }
         System.out.println("--------------------------------");
+    }
+    /*
+     * Utility function to print the adjacency matrix
+     */
+    public void printAsMatrix() {
+    	matrix.PrintMatrix();
     }
     /*
      *  prints BFS traversal from a given source node start_node
@@ -135,13 +148,93 @@ public class Graph {
     /*
      * Converts the current adjacency list to an adjacency matrix
      */
-    public AdjMatrix ConvertToMatrix() {
+    public void ConvertToMatrix() {
     	AdjMatrix mat = new AdjMatrix(V);
     	for(int i = 0; i<V;i++) {
     		for (Node<Vertex> tmp = this.adjListArray[i].getHead(); tmp != null; tmp = tmp.getNext()) {
     			mat.addToMatrix(i, tmp.getItem().getName(), tmp.getItem().getWeight());
     		}
     	}
-		return mat;
+		setMatrix(mat);
+    }
+    /*
+     * A utility function to find the vertex with minimum distance value,
+     * from the set of vertices not yet included in shortest path tree
+     * From https://www.geeksforgeeks.org/greedy-algorithms-set-6-dijkstras-shortest-path-algorithm/
+     */
+    public int minDistance(int dist[], Boolean sptSet[])
+    {
+        // Initialize min value
+        int min = Integer.MAX_VALUE, min_index=-1;
+ 
+        for (int v = 0; v < V; v++)
+            if (sptSet[v] == false && dist[v] <= min)
+            {
+                min = dist[v];
+                min_index = v;
+            }
+ 
+        return min_index;
+    }
+    /*
+     * Function that implements Dijkstra's single source shortest path algorithm 
+     * for a graph represented using adjacency matrix
+     * representation
+     * From https://www.geeksforgeeks.org/greedy-algorithms-set-6-dijkstras-shortest-path-algorithm/
+     */
+    public void dijkstra(int src, int dest)
+    {
+        int dist[] = new int[V]; // The output array. dist[i] will hold
+                                 // the shortest distance from src to i
+ 
+        // sptSet[i] will true if vertex i is included in shortest
+        // path tree or shortest distance from src to i is finalized
+        Boolean sptSet[] = new Boolean[V];
+ 
+        // Initialize all distances as INFINITE and stpSet[] as false
+        for (int i = 0; i < V; i++)
+        {
+            dist[i] = Integer.MAX_VALUE;
+            sptSet[i] = false;
+        }
+ 
+        // Distance of source vertex from itself is always 0
+        dist[src] = 0;
+ 
+        // Find shortest path for all vertices
+        for (int count = 0; count < V-1; count++)
+        {
+            // Pick the minimum distance vertex from the set of vertices
+            // not yet processed. u is always equal to src in first
+            // iteration.
+            int u = minDistance(dist, sptSet);
+ 
+            // Mark the picked vertex as processed
+            sptSet[u] = true;
+            if(u == dest)
+            	break;
+            // Update dist value of the adjacent vertices of the
+            // picked vertex.
+            for (int v = 0; v < V; v++)
+ 
+                // Update dist[v] only if is not in sptSet, there is an
+                // edge from u to v, and total weight of path from src to
+                // v through u is smaller than current value of dist[v]
+                if (!sptSet[v] && matrix.getAt(u, v)!=0 &&
+                        dist[u] != Integer.MAX_VALUE &&
+                        dist[u]+matrix.getAt(u, v) < dist[v])
+                    dist[v] = dist[u] + matrix.getAt(u, v);
+        }
+        
+ 
+        // print the constructed distance array
+        printSolution(dist, src, dest);
+    }
+    // A utility function to print the constructed distance array
+    public void printSolution(int dist[], int src, int dest)
+    {
+    	System.out.println("----------------------------------------------------------");
+        System.out.println("Vertex   Distance from Source");
+        System.out.println(src+" \t\t "+dist[dest]);
     }
 }

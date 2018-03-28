@@ -84,8 +84,7 @@ public class Assign4 {
 			System.out.println("Failed to read the input text file. Quitting...");
 			System.exit(-1);
 		}
-		AdjMatrix matrix = graph.ConvertToMatrix();
-		matrix.PrintMatrix();	
+		
 		
 		query = new File(args[1]);
 		System.out.println("Scanning the query file...");
@@ -125,6 +124,12 @@ public class Assign4 {
 		} catch (FileNotFoundException e) {
 			System.out.println("FileNotFoundException for the breadth first query method.");
 		} 
+		
+		
+		//Djistra functions performed
+		graph.ConvertToMatrix();
+		graph.dijkstra(0, 2);
+		
 		
 	}
 
