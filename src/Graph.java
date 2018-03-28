@@ -187,7 +187,7 @@ public class Graph {
         int dist[] = new int[V]; // The output array. dist[i] will hold
                                  // the shortest distance from src to i
  
-        // sptSet[i] will true if vertex i is included in shortest
+        // sptSet[i] will be true if vertex i is included in shortest
         // path tree or shortest distance from src to i is finalized
         Boolean sptSet[] = new Boolean[V];
  
@@ -234,7 +234,7 @@ public class Graph {
     public void printSolution(int dist[], int src, int dest)
     {
     	System.out.println("----------------------------------------------------------");
-        System.out.println("Vertex   Distance from Source");
-        System.out.println(src+" \t\t "+dist[dest]);
+    	System.out.println("Vertex "+dest +" is at minimum "+dist[dest]+" units from Vertex "+src+"." );
+       
     }
 }
